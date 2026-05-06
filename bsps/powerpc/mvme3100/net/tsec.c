@@ -3191,18 +3191,4 @@ struct tsec_private *tsec =
 	return tsec;
 }
 
-#ifdef DEBUG_MODULAR
-int
-_cexpModuleInitialize(void*u)
-{
-extern int ifattach();
-extern int ifconf();
-extern int rtconf();
-	ifattach("ts1",rtems_tsec_attach,0);
-	ifconf("ts1","134.79.33.137","255.255.252.0");
-	ifconf("pcn1",0,0);
-	rtconf(0, "134.79.33.86",0,0);
-	return 0;
-}
-#endif
 #endif

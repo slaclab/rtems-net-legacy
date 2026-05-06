@@ -3244,23 +3244,6 @@ printf("TX:\n");
 /* DETACH HACK DETAILS */
 
 #ifdef  MVETH_DETACH_HACK
-int
-_cexpModuleFinalize(void *mh)
-{
-int i;
-	for ( i=0; i<MV643XXETH_NUM_DRIVER_SLOTS; i++ ) {
-		if ( theMvEths[i].arpcom.ac_if.if_init ) {
-			printf("Interface %i still attached; refuse to unload\n", i+1);
-			return -1;
-		}
-	}
-	/* delete task; since there are no attached interfaces, it should block
-	 * for events and hence not hold the semaphore or other resources...
-	 */
-	rtems_task_delete(mveth_tid);
-	return 0;
-}
-
 /* ugly hack to allow unloading/reloading the driver core.
  * needed because rtems' bsdnet release doesn't implement
  * if_detach(). Therefore, we bring the interface down but
